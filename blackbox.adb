@@ -1,0 +1,4 @@
+PROCEDURE BlackBox IS
+BEGIN
+	NULL;
+END BlackBox;
