@@ -2,6 +2,8 @@ WITH Types; USE Types;
 WITH Board, Actions, Screen, Windows;
 WITH Ada.Text_IO;
 
+--Spencer Johnson
+
 PROCEDURE BlackBox IS
 
 	-- Display Menu
