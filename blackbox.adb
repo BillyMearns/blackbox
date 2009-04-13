@@ -4,14 +4,14 @@ WITH Ada.Text_IO;
 
 PROCEDURE BlackBox IS
 
-	-- Display Menu
-	-- User Input
+	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBoard}
+	-- User Input - Procedure (Selection : OUT Option) {BlackBox}-- User Input
+	-- Execute - Procedure (Selection : IN Option) {BlackBox}
 
 BEGIN
-	NULL;
 	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBoard}
 	-- If Selection /= NULL
-		-- Setup Board (Use List [BoardType] to track Windows) - Procedure (Selection : IN Difficulty; GameBoard : OUT BoardType) {Board}
+		-- Setup Board (Use List/Record [BoardType] to track Windows) - Procedure (Selection : IN Difficulty; GameBoard : OUT BoardType) {Board}
 			-- Define Window
 			-- Set Border
 			-- Define Windows for Boxes
