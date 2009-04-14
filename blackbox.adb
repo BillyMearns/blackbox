@@ -7,7 +7,7 @@ WITH Ada.Text_IO;
 -- Spencer: Write Move, and Fire Laser
 
 -- Types
-   ************
+-- ************
 -- Difficulty: Enumeration of Records containing data for each difficulty
 -- Option: Enumeration of each input option during game play
 -- BoardType: Record with a field for each window, and a field "Boxes" that points to an array of windows.
