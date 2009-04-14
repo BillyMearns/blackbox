@@ -1,4 +1,3 @@
-WITH Types; USE Types;
 WITH Board, Actions, Screen, Windows;
 WITH Ada.Text_IO;
 
@@ -7,7 +6,11 @@ WITH Ada.Text_IO;
 -- Tony: Write Setup Board using the Windows Package. Keep a list of the windows.
 -- Spencer: Write Move, and Fire Laser
 
--- Reference package Types for data types used.
+-- Types
+   ************
+-- Difficulty: Enumeration of Records containing data for each difficulty
+-- Option: Enumeration of each input option during game play
+-- BoardType: Record with a field for each window, and a field "Boxes" that points to an array of windows.
 
 PROCEDURE BlackBox IS
 
