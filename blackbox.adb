@@ -14,12 +14,12 @@ WITH Ada.Text_IO;
 
 PROCEDURE BlackBox IS
 
-	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBoard}
+	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBox}
 	-- User Input - Procedure (Selection : OUT Option) {BlackBox}-- User Input
 	-- Execute - Procedure (Selection : IN Option) {BlackBox}
 
 BEGIN
-	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBoard}
+	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBox}
 	-- If Selection /= NULL
 		-- Setup Board (Use List/Record [BoardType] to track Windows) - Procedure (Selection : IN Difficulty; GameBoard : OUT BoardType) {Board}
 			-- Define Window
@@ -30,11 +30,11 @@ BEGIN
 			-- Define Guesses Window
 			-- Define Options Window
 		-- Game Loop
+			-- Update Board - Procedure (GameBoard : IN BoardType) {Board}
 			-- User Input - Procedure (Selection : OUT Option) {BlackBox}
 				-- Loop While Action /= True
 					-- Get Input
 			-- Execute - Procedure (Selection : IN Option) {BlackBox}
-				-- Update Board - Procedure (GameBaord : IN BoardType) {Board}
 				-- Case Selection
 					-- Move - Procedure (GameBoard : IN OUT BoardType) {Actions}
 					-- Fire Laser - Procedure (GameBoard : IN OUT BoardType) {Actions}
