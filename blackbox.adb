@@ -1,7 +1,13 @@
---Billy Mearns
 WITH Types; USE Types;
 WITH Board, Actions, Screen, Windows;
 WITH Ada.Text_IO;
+
+-- Morgan: maintain master program, write main logic/procedures
+-- Billy: Write Retract, Guess, and Help Procedures
+-- Tony: Write Setup Board using the Windows Package. Keep a list of the windows.
+-- Spencer: Write Move, and Fire Laser
+
+-- Reference package Types for data types used.
 
 PROCEDURE BlackBox IS
 
