@@ -1,20 +1,25 @@
+GENERIC
+	TYPE WindowType IS PRIVATE;
+	TYPE MoveQueue  IS PRIVATE;
 PACKAGE Types IS
 
-	TYPE Boxes IS
-	RECORD
-		Mirror : Boolean := False;
-		Angle  : Boolean;
-		Window : WindowType;
-	END RECORD;
-
-	TYPE CPosition IS
-	RECORD
-		Side  : 
-		Index : Integer(1..10);
-	END RECORD;
-
 	TYPE BoardType IS
-	RECORD
+
+		TYPE Boxes IS
+		RECORD	-- Boxes
+			Mirror : Boolean := False;
+			Angle  : Boolean;
+			Window : WindowType;
+		END RECORD;
+
+		TYPE CPosition IS
+			TYPE SideEnum IS (Top,Right,Bottom,Left);
+		RECORD	-- CPosition
+			Side  : SideEnum;
+			Index : Integer(1..10);
+		END RECORD;
+
+	RECORD	-- Board Type
 		Length			: Integer;
 		Box				: ARRAY('A'..'J',1..10) OF Boxes;
 		CarrotPosition	: CPosition;
@@ -22,5 +27,25 @@ PACKAGE Types IS
 		Guesses			: Integer;
 		Moves			: MoveQueue;
 	END RECORD;
-	
-END Types; 
+
+	TYPE BoxPosition IS
+	RECORD	-- Box Position
+		X : Character('A'..'J');
+		Y : Integer  ( 1 .. 10);
+	END RECORD;
+
+	-- Type Move Element is used
+	-- as the ElementType of the MoveQueue
+	TYPE MoveElement IS
+		TYPE MoveEnum IS (Move,Shot,Guess);
+	RECORD -- Move Element
+		MoveType			: MoveEnum;
+		CarrotPosition		: CPosition;
+		GuessPosition		: BoxPosition;
+		Length				: Integer;
+	END RECORD;
+
+	TYPE Difficulty IS (Easy,Intermediate,Hard,Insane);
+	TYPE Option		IS (Up,Right,Left,Space,Guess,Help);
+
+END Types;
