@@ -445,9 +445,13 @@ With Types;
 				If GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Guess then
 					guess_count:= guess_count - 1;
 					Delete(Gameboard.Guesses, Gameboard.Guesses.Next);
+					-- 
 					-- not sure if need to do something with Gameboard.Guesses.Length
+					-- 
 				Elsif GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Move then
+				   -- ******************
 				   -- need spencer for this
+					-- ******************
 				Elsif GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Shot then 
 					Shot_counter = shot_counter + 1
 				Else
@@ -556,7 +560,9 @@ With Types;
 		Put("You Won!!! You are awesome!");
 		New_Line;
 		Put("Press any key to return to the main menu");
+		-- ********
 		-- Bring player back to main menu after a keypress
+		-- ********
 		If button_press = true then
 			Menu();
 		else
@@ -568,10 +574,14 @@ With Types;
 		begin --Game_Over
 			Put("Sorry but you were not able to finish the game in the allotted settings...");
 			New_Line;
+		-- *********
 		--	Display positions of correct mirror locations	
+		-- *********
 			New_Line;
 			Put("Press any key to return to the main menu");
+		-- *********
 		-- Bring player back to main menu after a keypress
+		-- *********
 		If button_press = true then
 			Menu();
 		else
@@ -580,11 +590,12 @@ With Types;
 	end game_over;
 	
 	procedure Help() is		-- need enumerations, help w/ if game is running, just aligned
-		choice: Boolean:= False;
+		choice: help_option;
+		pick: Boolean:= False;
 		begin -- Help
-			while choice /= true loop
-				Display options (enumeration)
-				Ask for choice (Boolean)
+			while pick /= true loop
+				Display help_options (enumeration)
+				Ask for choice 
 				If choice = About Game
 					About_Game();
 					Go back to help menu
@@ -598,30 +609,85 @@ With Types;
 					If the game has been started then
 						Execute();
 						-- need from someone
-						choice: = True;
+						pick: = True;
 					Else
 						Menu();
-						choice: = True;
+						pick: = True;
 					end if;
 			End loop;
 	end help;
 
-	procedure About_Game() is
+	procedure About_Game() is         -- need keypress
 		begin -- About_Game
-		Tell what object of game is
-		(you must recreate the arrangement of mirrors in the box.  You must deduce the placement of the mirrors by firing lasers into the sides of the box, and observing where they exit.)
-		What made for 
-		Who made it
+		Put("The object of the game is to recreate the arrangement of mirrors in the box.");
+		New_Line;
+		Put("You must deduce the placement of the mirrors by firing lasers into the sides of the box,");
+		New_Line;
+		Put("and observing where they exit. When a laser hits one of the two types of mirrors,");
+		New_Line;
+		Put("it is reflected at a 90 degree angle.");
+		New_Line(2);
+		Put("Morgan Showman, Spencer Johnson, Tony Grieb, and William Mearns created the black box");
+		New_Line;
+		Put("game for our project in CS 1350.");
+		New_Line(2);
+		Put("Press any key to return to the main menu");
+		-- *********
+		-- Bring player back to main menu after a keypress
+		-- *********
+		If button_press = true then
+			Menu();
+		else
+			null;
+		end if;
 	end about_game;
 
-	procedure Difficulties() is
+	procedure Difficulties() is      -- need keypress
 		begin -- Difficulties
-		Tell how many mirrors are in each level, how many shots, how big box is
+		Put("There are 4 different difficulties in this game: Easy, Intermediate, Hard, and Insane.");
+		New_Line;
+		Put("There are 5, 10, 15, and 30 mirrors and 25, 30, 45, and 90 shots corresponding to each");
+		New_Line;
+		Put("level of difficulty. Also, the size of the box will increase according to the difficulty:");
+		New_Line;
+		Put("5x5 for easy, 6x6 for both intermediate and hard, and 10x10 for insane.");		
+		New_Line(2);
+		Put("Press any key to return to the main menu");
+		-- *********
+		-- Bring player back to main menu after a keypress
+		-- *********
+		If button_press = true then
+			Menu();
+		else
+			null;
+		end if;
 	end difficulties;
 	
-	procedure Controls() is
+	procedure Controls() is       -- need keypress
 		begin -- Controls
-		Display list of what buttons do what
+		Put("These are the only buttons which will not be ignored");
+		New_Line(2);
+		Put("right arrow : move cursor clockwise");
+		New_Line;
+		Put("left arrow : move cursor counter-clockwise");
+		New_line;
+		Put("up arrow : move cursor retract move");
+		New_Line;
+		Put("space : fire laser");
+		New_Line;
+		Put("g : make a guess");
+		New_Line;
+		Put("h : help");
+		New_Line(2);
+		Put("Press any key to return to the main menu");
+		-- *********
+		-- Bring player back to main menu after a keypress
+		-- *********
+		If button_press = true then
+			Menu();
+		else
+			null;
+		end if;
 	end controls;
 
 

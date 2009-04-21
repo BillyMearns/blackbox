@@ -1,5 +1,6 @@
 <<<<<<< HEAD:blackbox.adb
 <<<<<<< HEAD:blackbox.adb
+<<<<<<< HEAD:blackbox.adb
 --Billy Mearns
 WITH Types; USE Types;
 =======
@@ -10,6 +11,11 @@ WITH Types, Board, Actions, Screen, Windows, Stacks;
 USE  Types, Board, Actions, Screen, Windows, Stacks;
 >>>>>>> 94010df9e0727b697800d3fd1e78f9445b7a2e4c:blackbox.adb
 WITH Ada.Text_IO;
+=======
+WITH Types, Board, Actions, Screen, Windows, Stacks, Lists;
+USE  Types, Board, Actions, Screen, Windows, Stacks, Lists;
+WITH Ada.Text_IO; USE Ada.Text_IO;
+>>>>>>> 2672c377b41f3c0a35852f7f347b1223a4dbcec1:blackbox.adb
 
 -- Morgan: maintain master program, write main logic/procedures
 -- Billy: Write Retract, Guess, and Help Procedures
@@ -24,7 +30,10 @@ WITH Ada.Text_IO;
 
 PROCEDURE BlackBox IS
 
-	PACKAGE Que IS NEW Queues(MoveElement,"<")
+	PACKAGE Stack IS NEW Stacks(MoveElement,"<");
+	USE		Stack;
+	PACKAGE List IS NEW Lists(GuessElement,"<");
+	USE		List;
 
 	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBox}
 	Procedure DisplayMenu (Selection : OUT Difficulty) IS
