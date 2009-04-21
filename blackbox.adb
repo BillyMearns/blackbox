@@ -1,4 +1,5 @@
-WITH Board, Actions, Screen, Windows;
+WITH Types, Board, Actions, Screen, Windows;
+USE  Types;
 WITH Ada.Text_IO;
 
 -- Morgan: maintain master program, write main logic/procedures
