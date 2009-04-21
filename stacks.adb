@@ -2,42 +2,42 @@
 --                                                                          --
 --                    MORGAN SHOWMAN RUNTIME COMPONENTS                     --
 --                                                                          --
---                        L I N K E D _ Q U E U E S                         --
+--                        L I N K E D _ S T A C K S                         --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $ Revision: 1 $                              --
+--                             $ Revision: 2 $                              --
 --                                                                          --
 ------------------------------------------------------------------------------
 
-PACKAGE BODY Linked_Queues IS
+PACKAGE BODY Linked_Stacks IS
 
-	PROCEDURE MakeEmpty (Q : IN OUT Queue) IS
+	PROCEDURE MakeEmpty (S : IN OUT Stack) IS
 	BEGIN	-- Make Empty
-		Initialize(Q);
+		Initialize(S);
 	END MakeEmpty;
 
-	FUNCTION IsEmpty (Q : Queue) RETURN Boolean IS
+	FUNCTION  IsEmpty (S : Stack) RETURN Boolean IS
 	BEGIN	-- Is Empty
-		RETURN Q.Next = NULL;
+		RETURN S.Next = NULL;
 	END IsEmpty;
 
-	PROCEDURE Enque (Q : IN OUT Queue; Item : ElementType) IS
-	BEGIN	-- Enque
-		Append(Q,MakeNode(Item));
-	END Enque;
+	PROCEDURE Push (S : IN OUT Stack; Item : ElementType) IS
+	BEGIN	-- Push
+		InsertInFront(S,MakeNode(Item));
+	END Push;
 
-	PROCEDURE Deque (Q : IN OUT Queue; Item : OUT ElementType) IS
-	BEGIN	-- Deque
-		IF NOT IsEmpty(Q) THEN
-			Item := GetElement(Q.Next);
-			Delete(Q,Q.Next);
+	PROCEDURE Pop (S : IN OUT Stack; Item : OUT ElementType) IS
+	BEGIN	-- Pop
+		IF NOT IsEmpty(S) THEN
+			Item := GetElement(S.Next);
+			Delete(S,S.Next);
 		END IF;
-	END Deque;
+	END Pop;
 
-	FUNCTION Front (Q : Queue) RETURN ElementType IS
-	BEGIN	-- Front
-			RETURN GetElement(Q.Next);
-	END Front;
+	FUNCTION Top (S : Stack) RETURN ElementType IS
+	BEGIN	-- Top
+		RETURN GetElement(S.Next);
+	END Top;
 
-END Linked_Queues;
+END Linked_Stacks;

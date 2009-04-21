@@ -2,11 +2,11 @@
 --                                                                          --
 --                    MORGAN SHOWMAN RUNTIME COMPONENTS                     --
 --                                                                          --
---                        L I N K E D _ Q U E U E S                         --
+--                        L I N K E D _ S T A C K S                         --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                             $ Revision: 1 $                              --
+--                             $ Revision: 2 $                              --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -15,17 +15,17 @@ WITH Linked_Lists;
 GENERIC
 	TYPE ElementType IS PRIVATE;
 	WITH FUNCTION "<" (Left, Right : ElementType) RETURN Boolean;
-PACKAGE Linked_Queues IS
+PACKAGE Linked_Stacks IS
 
-	PACKAGE QueueList IS NEW Linked_Lists(ElementType,"<");
-	USE QueueList;
+	PACKAGE StackList IS NEW Linked_Lists(ElementType,"<");
+	USE StackList;
 
-	TYPE Queue IS NEW List;
+	TYPE Stack IS NEW List;
 
-	PROCEDURE MakeEmpty (Q : IN OUT Queue);
-	FUNCTION IsEmpty (Q : Queue) RETURN Boolean;
-	PROCEDURE Enque (Q : IN OUT Queue; Item : ElementType);
-	PROCEDURE Deque (Q : IN OUT Queue; Item : OUT ElementType);
-	FUNCTION  Front (Q : Queue) RETURN ElementType;
+	PROCEDURE MakeEmpty (S : IN OUT Stack);
+	FUNCTION  IsEmpty (S : Stack) RETURN Boolean;
+	PROCEDURE Push (S : IN OUT Stack; Item : ElementType);
+	PROCEDURE Pop (S : IN OUT Stack; Item : OUT ElementType);
+	FUNCTION  Top (S : Stack) RETURN ElementType;
 
-END Linked_Queues;
+END Linked_Stacks;

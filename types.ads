@@ -25,7 +25,7 @@ PACKAGE Types IS
 		CarrotPosition	: CPosition;
 		Shots			: Integer;
 		Guesses			: Integer;
-		Moves			: MoveQueue;
+		Moves			: MoveStack;
 	END RECORD;
 
 	TYPE BoxPosition IS
@@ -35,7 +35,7 @@ PACKAGE Types IS
 	END RECORD;
 
 	-- Type Move Element is used
-	-- as the ElementType of the MoveQueue
+	-- as the ElementType of the MoveStack
 	TYPE MoveElement IS
 		TYPE MoveEnum IS (Move,Shot,Guess);
 		
@@ -48,7 +48,6 @@ PACKAGE Types IS
 		MoveType			: MoveEnum;
 		CarrotPosition		: CPosition;
 		GuessPosition		: BoxPosition;
-		Length				: Integer;
 	END RECORD;
 
 	TYPE Difficulty IS (Easy,Intermediate,Hard,Insane);
