@@ -10,31 +10,9 @@ With Screen;
 With Windows;
 
 	Procedure Lazzer is
-	--	Carrot : Screen.Position;
-
-		
---		Type LaserInfo is Record
---			HitMirror : Boolean := False;
-	--		--Laser Character Directions
---			AtCorner : Boolean;
---			Top : Boolean;
---			OnBottom : Boolean;
---			Left : Boolean;
---			OnRightSide : Boolean;	
---			LeftCorner : Boolean;
---			RightCorner : Boolean;	
-----			--Laser Shot Directions
---			GoingDown : Boolean;
---			GoingUp : Boolean;
---			GoingLeft : Boolean;
-	--		GoingRight : Boolean;
---			--Carrot Directions
---			CarrotX : Integer;
---			CarrotY : Integer;
---			--X and Y value for Lazer
---			X : Integer;
---			Y : Integer;
---			ShotFinished : Boolean := False;
+--I need The dimensions per diff. 
+--Difficulty Level Skip
+--		DifficultyLevel : Integer;
 		
 		--Carrot Variables
 --		 Rows				:	Screen.Height := 50;
@@ -102,13 +80,13 @@ With Windows;
 		
 		Type MirrorsXPosition is Array (1..132) of Integer;
 		Type MirrorsYPosition is Array (1..132) of Integer;
-		MirrorsX : MirrorsXPosition;
-		MirrorsY : MirrorsYPosition;
 		Type MirrorsPosition is array (1..132) of Screen.Position;
 		--SO it would be Mirrors(Index).MirrorPosition(Index) := (MirrorsX(Index), MirrorsY(Index));
 		
 		Type MirrorsAngleData is Array(1..132) of Boolean;
 		Type Mirrorsdata is Record
+			MirrorsX : MirrorsXPosition;
+			MirrorsY : MirrorsYPosition;
 			MirrorPosition : MirrorsPosition;
 			MirrorAngle : MirrorsAngleData;
 				--True means it's /   false means \
@@ -332,7 +310,7 @@ With Windows;
 		
 		
 		Procedure ChangeLaserDirection (Laser : in out LaserInfo; Mirrors : in MirrorNumber; MirrorGotHit : in Integer) is
-		
+		GotHit: Integer := MirrorGotHit;
 		Begin --ChangeLaserDirection
 			If Laser.HitMirror = true then
 				If Mirrors(MirrorGotHit).MirrorAngle(MirrorGotHit) = true then
@@ -367,13 +345,13 @@ With Windows;
 			end if;
 		end ChangeLaserDirection;
 		
-		Procedure MoveLaser (Laser : in out LaserInfo; Mirrors : in out MirrorNumber; Carrot : in out CarrotInfo; MirrorGotHit : In out integer; MirrorX : in MirrorsXPosition; MirrorY : in MirrorsYPosition) is --(Laser : In Out LserData; GameInfo : In out GmeInfo) is
+		Procedure MoveLaser (Laser : in out LaserInfo; Mirrors : in out MirrorNumber; MirrorGotHit : in out integer) is --(Laser : In Out LserData; GameInfo : In out GmeInfo) is
 		
 		Begin --MoveLaser
 			If Laser.X /= Laser.OutsideLeftSide and Laser.X /= Laser.OutsideRightSide and Laser.Y /= Laser.OutsideTopSide and Laser.Y /= Laser.OutsideBottomSide then
 				--The Outside Left/Right/Top/Bottom are going to be defined in another package.
 				For Index in 1..Mirrors'Last loop
-					If Laser.X = MirrorX(Index) and Laser.Y = MirrorY(Index) then
+					If Laser.X = Mirrors(Index).MirrorsX(Index) and Laser.Y = Mirrors(Index).MirrorsY(Index) then
 						MirrorGotHit := Index;
 						ChangeLaserDirection(Laser, Mirrors, MirrorGotHit);
 					end if;
@@ -414,10 +392,10 @@ With Windows;
 --	Screen.Graphicson;
 	Screen.ClearScreen;
 	For index in 1..132 loop
-		MirrorsX(Index) := 1;
-		MirrorsY(Index) := 1;
+		Mirrors(Index).MirrorsX(Index) := 1;
+		Mirrors(Index).MirrorsY(Index) := 1;
 	end loop;
-		Ada.Text_IO.Unbounded_IO.Get_Line (Input);
+--		Ada.Text_IO.Unbounded_IO.Get_Line (Input);
 		If Input = ASCII.ESC& "[D" then
 			Choice.LeftArrow := True;
 			Choice.RightArrow := False;
@@ -437,7 +415,7 @@ With Windows;
 			Laser.ShotFinished := False;
 			Loop
 			Exit when Laser.ShotFinished = true;
-				MoveLaser(Laser, Mirrors, Carrot, MirrorGotHit, MirrorsX, MirrorsY);
+				MoveLaser(Laser, Mirrors, MirrorGotHit);
 			end loop;
 		end if;
 --	end loop;
