@@ -25,6 +25,7 @@ PACKAGE Linked_Lists IS
 	TYPE List IS RECORD
 		Next : NodePointer := NULL;
 		Tail : NodePointer := NULL;
+		Length : Integer;
 	END RECORD;
 
 	PROCEDURE Initialize	(Lst : IN OUT List);

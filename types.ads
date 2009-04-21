@@ -50,6 +50,13 @@ PACKAGE Types IS
 		GuessPosition		: BoxPosition;
 	END RECORD;
 
+	TYPE GuessElement IS
+	RECORD
+		GuessPosition : BoxPosition;
+		GuessAngle : Boolean;
+		IsCorrect : Boolean;
+	END RECORD;
+
 	TYPE Difficulty IS (Easy,Intermediate,Hard,Insane);
 	TYPE Option		IS (Up,Right,Left,Space,Guess,Help);
 
