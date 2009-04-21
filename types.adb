@@ -23,4 +23,4 @@ PACKAGE Types IS
 		Moves			: MoveQueue;
 	END RECORD;
 	
-END Types;
+END Types; 
