@@ -38,6 +38,12 @@ PACKAGE Types IS
 	-- as the ElementType of the MoveQueue
 	TYPE MoveElement IS
 		TYPE MoveEnum IS (Move,Shot,Guess);
+		
+		FUNCTION "<" (Left,Right : MoveElement) RETURN Boolean IS
+		BEGIN	-- Move Element "<"
+			RETURN Left.Length < Right.Length;
+		END "<";
+		
 	RECORD -- Move Element
 		MoveType			: MoveEnum;
 		CarrotPosition		: CPosition;

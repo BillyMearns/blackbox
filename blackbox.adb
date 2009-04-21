@@ -1,5 +1,5 @@
-WITH Types, Board, Actions, Screen, Windows;
-USE  Types;
+WITH Types, Board, Actions, Screen, Windows, Queues;
+USE  Types, Board, Actions, Screen, Windows, Queues;
 WITH Ada.Text_IO;
 
 -- Morgan: maintain master program, write main logic/procedures
@@ -14,6 +14,8 @@ WITH Ada.Text_IO;
 -- BoardType: Record with a field for each window, and a field "Boxes" that points to an array of windows.
 
 PROCEDURE BlackBox IS
+
+	PACKAGE Que IS NEW Queues(MoveElement,"<")
 
 	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBox}
 	Procedure DisplayMenu (Selection : OUT Difficulty) IS
