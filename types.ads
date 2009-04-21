@@ -35,14 +35,19 @@ PACKAGE Types IS
 	END RECORD;
 
 	-- Type Move Element is used
-	-- as the ElementType of the MoveQueue
+	-- as the ElementType of the MoveStack
 	TYPE MoveElement IS
 		TYPE MoveEnum IS (Move,Shot,Guess);
+		
+		FUNCTION "<" (Left,Right : MoveElement) RETURN Boolean IS
+		BEGIN	-- Move Element "<"
+			RETURN Left.Length < Right.Length;
+		END "<";
+		
 	RECORD -- Move Element
 		MoveType			: MoveEnum;
 		CarrotPosition		: CPosition;
 		GuessPosition		: BoxPosition;
-		Length				: Integer;
 	END RECORD;
 
 	TYPE Difficulty IS (Easy,Intermediate,Hard,Insane);

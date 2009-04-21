@@ -1,9 +1,14 @@
 <<<<<<< HEAD:blackbox.adb
+<<<<<<< HEAD:blackbox.adb
 --Billy Mearns
 WITH Types; USE Types;
 =======
 >>>>>>> MorganShowman/master:blackbox.adb
 WITH Board, Actions, Screen, Windows;
+=======
+WITH Types, Board, Actions, Screen, Windows, Stacks;
+USE  Types, Board, Actions, Screen, Windows, Stacks;
+>>>>>>> 94010df9e0727b697800d3fd1e78f9445b7a2e4c:blackbox.adb
 WITH Ada.Text_IO;
 
 -- Morgan: maintain master program, write main logic/procedures
@@ -18,6 +23,8 @@ WITH Ada.Text_IO;
 -- BoardType: Record with a field for each window, and a field "Boxes" that points to an array of windows.
 
 PROCEDURE BlackBox IS
+
+	PACKAGE Que IS NEW Queues(MoveElement,"<")
 
 	-- Display Menu - Procedure (Selection : OUT Difficulty) {BlackBox}
 	Procedure DisplayMenu (Selection : OUT Difficulty) IS
