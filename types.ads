@@ -59,5 +59,6 @@ PACKAGE Types IS
 
 	TYPE Difficulty IS (Easy,Intermediate,Hard,Insane);
 	TYPE Option		IS (Up,Right,Left,Space,Guess,Help);
+	TYPE HelOption  IS (About,Game,Controls,Difficulties,Quit);
 
 END Types;
