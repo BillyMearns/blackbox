@@ -17,6 +17,7 @@ With Ada.Text_IO.Unbounded_IO; Use Ada.Text_IO.Unbounded_IO;
 With Ada.Strings; Use Ada.Strings;
 With Screen;
 With Windows;
+With Types;
 
 	Procedure Lazzer is
 --I need The dimensions per diff. 
@@ -429,4 +430,202 @@ With Windows;
 		end if;
 --	end loop;
 	End Lazzer;
+	
+	
+	
+	
+-- Billy
+	procedure Retract(Gameboard: in out Boardtype; 
+								guess_count, shot_counter: in out Integer) is  -- needs continue work on
+	--	retract_amt: Integer:= 0;
+		
+		begin -- retract
+		If GameBoard.Moves.Next /= null then 
+			If GameBoard.Moves.Length < 5 then -- number of retracts left ?
+				If GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Guess then
+					guess_count:= guess_count - 1;
+					Delete(Gameboard.Guesses, Gameboard.Guesses.Next);
+					-- not sure if need to do something with Gameboard.Guesses.Length
+				Elsif GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Move then
+				   -- need spencer for this
+				Elsif GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Shot then 
+					Shot_counter = shot_counter + 1
+				Else
+					Null; -- nothing was done yet
+				end if;
+			Else
+				Null;  -- they used all their undos
+			end if;
+		Else
+			Null; -- they havnt guessed yet, do not change retract
+		end if;
+	end retract;
+	
+	procedure Guess is -- just formatted alignment
+		min: Integer:= 5;
+		max: Integer:= 35;
+		begin -- Guess
+-- guess_array is array(min..max) of Integer
+			If Menu_selection = 1 then
+				Max:= 10;
+				If guesses < 5 then
+					guess_count:= guess_count + 1;
+				Elsif guesses = 5 and retract_amt = 0 then
+					Correct_all();
+				Elsif guesses > 10 then
+					Game_Over();
+				Elsif guesses < 10 and guesses > 5 and retract_amt = 0 then
+					Correct_all();
+				Else
+					Game_Over();
+				end if;
+			ElsIf Menu_selection = 2 then
+				Min:= 10;
+				Max:= 15;
+				If guesses < 10 then
+					guess_count goes up one
+				Elsif guesses =  10 and retract_amt = 0 then
+					Correct_all();
+				Elsif guesses > 15 then
+					Game_over();
+				Elsif guesses < 15 and guesses > 10 and retract_amt = 0 then
+					Correct_all();
+				Else
+					Game_Over();
+				end if;
+			ElsIf Menu_selection = 3 then
+				Min:= 15 ;
+				Max:= 20;
+				If guesses < 15 then
+					guess_count goes up one
+				Elsif guesses = 15 and retract_amt = 0 then
+					Correct_all();
+				Elsif guesses  > 20 then
+					Game_over();
+				Elsif guesses < 20 and guesses > 15 and retract_amt = 0 then
+					Correct_all();
+				Else
+					Game_Over();
+				end if;
+			Elsif Menu_selection = 4 then
+				Min:= 30;
+				Max:= 35;
+				If guesses < 30 then
+					guess_count goes up one
+				Elsif guesses = 30 and retract_amt = 0 then
+					Correct_all();
+				Elsif guesses > 35 then 
+					Game_Over();
+				Elsif guesses < 35 and guesses > 30 and retract_amt = 0 then
+					Correct_all();
+				Else
+					Game_Over();
+				end if;
+			end if;
+			
+			Get aGuess(location and angle (45 or 315))
+			If aGuess is correct position of mirror
+				If angle is 45 then
+					Put ‘/’ in position of mirror
+				Else
+					Put ‘\’ in position of mirror
+					Put aguess in list at right side of board
+					Put aguess location in green font
+			Else 
+				Put aguess in list at right side of board
+				Put aguess location in red font						
+				Correct_all();
+				Index:= 1;
+				Loop
+					Exit when guess_array(index) /= correct position ;
+					If Guess_array(index) = correct position then
+						Index:= index + 1;
+						If index > max then
+							Win();
+						End if;
+					End if;
+				End loop;
+				If retract_amt = 0 then
+					Game_Over();
+				End if;
+			end if;
+	end guess;
+
+	procedure Win() is      -- needs button_press cmd
+		begin -- Win
+		Put("You Won!!! You are awesome!");
+		New_Line;
+		Put("Press any key to return to the main menu");
+		-- Bring player back to main menu after a keypress
+		If button_press = true then
+			Menu();
+		else
+			null;
+		end if;
+	end Win;
+
+	procedure Game_Over() is       -- needs button_press cmd and displaying of mirrors
+		begin --Game_Over
+			Put("Sorry but you were not able to finish the game in the allotted settings...");
+			New_Line;
+		--	Display positions of correct mirror locations	
+			New_Line;
+			Put("Press any key to return to the main menu");
+		-- Bring player back to main menu after a keypress
+		If button_press = true then
+			Menu();
+		else
+			null;
+		end if;
+	end game_over;
+	
+	procedure Help() is		-- need enumerations, help w/ if game is running, just aligned
+		choice: Boolean:= False;
+		begin -- Help
+			while choice /= true loop
+				Display options (enumeration)
+				Ask for choice (Boolean)
+				If choice = About Game
+					About_Game();
+					Go back to help menu
+				Elsif choice is Controls
+					Controls()
+					Go back to help menu
+				Elsif choice is Difficulties
+					Difficulties()
+					Go back to help menu
+				Else – goto main menu or back to game
+					If the game has been started then
+						Execute();
+						-- need from someone
+						choice: = True;
+					Else
+						Menu();
+						choice: = True;
+					end if;
+			End loop;
+	end help;
+
+	procedure About_Game() is
+		begin -- About_Game
+		Tell what object of game is
+		(you must recreate the arrangement of mirrors in the box.  You must deduce the placement of the mirrors by firing lasers into the sides of the box, and observing where they exit.)
+		What made for 
+		Who made it
+	end about_game;
+
+	procedure Difficulties() is
+		begin -- Difficulties
+		Tell how many mirrors are in each level, how many shots, how big box is
+	end difficulties;
+	
+	procedure Controls() is
+		begin -- Controls
+		Display list of what buttons do what
+	end controls;
+
+
+	
+
 >>>>>>> MorganShowman/master:actions.adb
+

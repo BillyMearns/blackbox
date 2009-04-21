@@ -1,6 +1,6 @@
 GENERIC
 	TYPE WindowType IS PRIVATE;
-	TYPE MoveQueue  IS PRIVATE;
+	TYPE MoveStack  IS PRIVATE;
 PACKAGE Types IS
 
 	TYPE BoardType IS
@@ -25,7 +25,7 @@ PACKAGE Types IS
 		CarrotPosition	: CPosition;
 		Shots			: Integer;
 		Guesses			: Integer;
-		Moves			: MoveQueue;
+		Moves			: MoveStack;
 	END RECORD;
 
 	TYPE BoxPosition IS
