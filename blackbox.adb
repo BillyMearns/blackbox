@@ -1,7 +1,6 @@
 WITH Board, Actions, Screen, Windows;
 WITH Ada.Text_IO;
 
-<<<<<<< HEAD:blackbox.adb
 -- Morgan: maintain master program, write main logic/procedures
 -- Billy: Write Retract, Guess, and Help Procedures
 -- Tony: Write Setup Board using the Windows Package. Keep a list of the windows.
@@ -12,9 +11,6 @@ WITH Ada.Text_IO;
 -- Difficulty: Enumeration of Records containing data for each difficulty
 -- Option: Enumeration of each input option during game play
 -- BoardType: Record with a field for each window, and a field "Boxes" that points to an array of windows.
-=======
---Spencer Johnson
->>>>>>> SpencerJohnson/master:blackbox.adb
 
 PROCEDURE BlackBox IS
 
