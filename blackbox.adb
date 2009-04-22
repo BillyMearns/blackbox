@@ -13,7 +13,7 @@ USE  Types, Board, Actions, Screen, Windows, Stacks;
 WITH Ada.Text_IO;
 =======
 WITH Types, Board, Actions, Screen, Windows, Stacks, Lists;
-USE  Types, Board, Actions, Screen, Windows, Stacks, Lists;
+USE  Types, Board, Actions, Screen, Windows;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 >>>>>>> 2672c377b41f3c0a35852f7f347b1223a4dbcec1:blackbox.adb
 

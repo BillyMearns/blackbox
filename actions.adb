@@ -18,6 +18,7 @@ With Ada.Strings; Use Ada.Strings;
 With Screen;
 With Windows;
 With Types;
+With Lists;
 
 	Procedure Lazzer is
 --I need The dimensions per diff. 
@@ -435,189 +436,212 @@ With Types;
 	
 	
 -- Billy
-	procedure Retract(Gameboard: in out Boardtype; 
-								guess_count, shot_counter: in out Integer) is  -- needs continue work on
-	--	retract_amt: Integer:= 0;
-		
+	procedure Retract(Gameboard: in out Boardtype; retract_amt: out GameBoard.Moves.Length;
+								guess_count: Gameboard.guesses.length; shot_counter: in out Integer;
+								the_guesses: in out GuessElement; MoveRecord: in out MoveElement) is 
+								
+			gues:GameBoard.Moves.Next.MoveType:= guess;
+			sht:GameBoard.Moves.Next.MoveType:= shot;
+			mov:GameBoard.Moves.Next.MoveType:= move;
+			spot: moverecord.cposition;
+			lase: moverecord.lposition;
 		begin -- retract
+		retract_amt:= 0;
 		If GameBoard.Moves.Next /= null then 
-			If GameBoard.Moves.Length < 5 then -- number of retracts left ?
-				If GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Guess then
-					guess_count:= guess_count - 1;
-					Delete(Gameboard.Guesses, Gameboard.Guesses.Next);
-					-- 
-					-- not sure if need to do something with Gameboard.Guesses.Length
-					-- 
-				Elsif GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Move then
-				   -- ******************
-				   -- need spencer for this
-					-- ******************
-				Elsif GameBoard.Moves.Next.MoveType = GameBoard.Moves.Next.Shot then 
-					Shot_counter = shot_counter + 1
+			If retract_amt <= 5 then -- number of retracts left ?
+				If MoveRecord.MoveType = gues then
+					guess_count:= guess_count - 1; -- removes a guess from count thus adding a guess
+					Stack.Pop(moveRecord, the_guesses);
+				Elsif MoveRecord.MoveType = mov then
+					Stack.Pop(moveRecord, spot); 
+					Gameboard.carrotposition:= spot;
+				Elsif MoveRecord.MoveType = sht then 
+					Stack.Pop(moveRecord, lase);
+					Gameboard.laserposition:= lase;
+					Shot_counter = shot_counter + 1;
 				Else
 					Null; -- nothing was done yet
 				end if;
 			Else
 				Null;  -- they used all their undos
 			end if;
+			retract_amt:= retract_amt + 1;
 		Else
 			Null; -- they havnt guessed yet, do not change retract
 		end if;
 	end retract;
 	
-	procedure Guess is -- just formatted alignment
-		min: Integer:= 5;
-		max: Integer:= 35;
+	procedure Guess (GameBoard: in out BoardType; Selection: Difficulty; 
+						retract_amt: GameBoard.Moves.Length; guess_count: in out Gameboard.guesses.length;
+						the_guesses: in out GuessElement; MoveRecord: in out MoveElement)  is
+
 		begin -- Guess
--- guess_array is array(min..max) of Integer
-			If Menu_selection = 1 then
-				Max:= 10;
-				If guesses < 5 then
+			If selection = easy then
+				If guess_count < 5 then -- number of guesses 
 					guess_count:= guess_count + 1;
-				Elsif guesses = 5 and retract_amt = 0 then
-					Correct_all();
-				Elsif guesses > 10 then
-					Game_Over();
-				Elsif guesses < 10 and guesses > 5 and retract_amt = 0 then
-					Correct_all();
-				Else
-					Game_Over();
+				Elsif guess_count = 5 and retract_amt = 0 then -- if out of guesses and retracts
+					Correct_all(gameboard, guess_count);
+				Else -- out of guesses
+					End_of_Game:= True;;
 				end if;
-			ElsIf Menu_selection = 2 then
-				Min:= 10;
-				Max:= 15;
-				If guesses < 10 then
-					guess_count goes up one
-				Elsif guesses =  10 and retract_amt = 0 then
-					Correct_all();
-				Elsif guesses > 15 then
-					Game_over();
-				Elsif guesses < 15 and guesses > 10 and retract_amt = 0 then
-					Correct_all();
+			ElsIf selection = intermediate then
+				If guess_count < 10 then
+					guess_count:= guess_count + 1;
+				Elsif guess_count =  10 and retract_amt = 0 then
+					Correct_all(gameboard, guess_count);
 				Else
-					Game_Over();
+					End_of_Game:= True;;
 				end if;
-			ElsIf Menu_selection = 3 then
-				Min:= 15 ;
-				Max:= 20;
-				If guesses < 15 then
-					guess_count goes up one
-				Elsif guesses = 15 and retract_amt = 0 then
-					Correct_all();
-				Elsif guesses  > 20 then
-					Game_over();
-				Elsif guesses < 20 and guesses > 15 and retract_amt = 0 then
-					Correct_all();
+			ElsIf selection = hard then
+				If guess_count < 15 then
+					guess_count:= guess_count + 1;
+				Elsif guess_count = 15 and retract_amt = 0 then
+					Correct_all(gameboard, guess_count);
 				Else
-					Game_Over();
+					End_of_Game:= True;;
 				end if;
-			Elsif Menu_selection = 4 then
-				Min:= 30;
-				Max:= 35;
-				If guesses < 30 then
-					guess_count goes up one
+			Elsif selection = insane then
+				If guess_count < 30 then
+					guess_count := guess_count + 1;
 				Elsif guesses = 30 and retract_amt = 0 then
-					Correct_all();
-				Elsif guesses > 35 then 
-					Game_Over();
-				Elsif guesses < 35 and guesses > 30 and retract_amt = 0 then
-					Correct_all();
+					Correct_all(gameboard, guess_count);
 				Else
-					Game_Over();
+					End_of_Game:= True;;
 				end if;
 			end if;
 			
-			Get aGuess(location and angle (45 or 315))
-			If aGuess is correct position of mirror
-				If angle is 45 then
-					Put ‘/’ in position of mirror
-				Else
-					Put ‘\’ in position of mirror
-					Put aguess in list at right side of board
-					Put aguess location in green font
+			Get(Guess_pos); -- location of guess(a..j,1.10)
+			Get(Guess_ang); -- which mirror True(45) or false(135)	
+			If  gameboard.box(guess_pos).Mirror = true and
+						 gameboard.box(guess_pos).Angle = guess_ang then
+				-- if the guess is correct
+				the_guesses.guessposition:= guess_pos;
+				the_guesses.guessangle:= guess_ang;
+				the_guesses.iscorrect:= true;
+				Screen.Set_Color(32);
+				Put(Guess_pos, Width => 4);
+				If guess_ang = true then
+					Put("  45");
+				else
+					Put(" 135");
+				end if;
+				Screen.Set_Color(37);
+				New_Line;
 			Else 
-				Put aguess in list at right side of board
-				Put aguess location in red font						
-				Correct_all();
-				Index:= 1;
-				Loop
-					Exit when guess_array(index) /= correct position ;
-					If Guess_array(index) = correct position then
-						Index:= index + 1;
-						If index > max then
-							Win();
-						End if;
-					End if;
-				End loop;
-				If retract_amt = 0 then
-					Game_Over();
-				End if;
+				the_guesses.guessposition:= guess_pos;
+				the_guesses.guessangle:= guess_ang;
+				the_guesses.iscorrect:= false;
+					Screen.Set_Color(31);
+				Put(Guess_pos, Width => 4);
+				If guess_ang = true then
+					Put("  45");
+				else
+					Put(" 135");
+				end if;
+				Screen.Set_Color(37);
+				New_Line;
 			end if;
+			MoveRecord.guess:= Stack.Append(gameboard.guesses, the_guesses);
+			MoveRecord:= gameboard.guesses.tail;
+			Stack.Push(Guess_move, MoveRecord);	
+			-- ??
 	end guess;
+	
+	procedure Correct_all(gameboard: boardtype; GuessRecord: GuessElement;
+						guess_count: Gameboard.guesses.length) is	
+		index: Integer:= 1;
+		current: GuessRecord;
+		correct: Gameboard.guesses.next.IsCorrect;
+		begin -- correct_all
+			Loop
+				If  gameboard.box(current.pos).Mirror = true and
+						 gameboard.box(current.pos).Angle = guess_ang then
+					correct:= true;
+				else
+					correct:= false;
+				end if;
+				Exit when correct = false;
+				If correct = true  then
+					Index:= index + 1;
+					If index > guess_count then
+						Win;
+					End if;
+				End if;
+			End loop;
+			If retract_amt = 0 and correct = false then
+				End_of_Game:= True;;
+			End if
+	end correct_all;	
 
-	procedure Win() is      -- needs button_press cmd
+
+	procedure Win is     
+		button_press: Unbounded_string;
 		begin -- Win
-		Put("You Won!!! You are awesome!");
+		Put("You Won!!! You're awesome!");
 		New_Line;
 		Put("Press any key to return to the main menu");
-		-- ********
-		-- Bring player back to main menu after a keypress
-		-- ********
-		If button_press = true then
-			Menu();
-		else
-			null;
-		end if;
+		Get(button_press);
+		Menu();
 	end Win;
-
-	procedure Game_Over() is       -- needs button_press cmd and displaying of mirrors
-		begin --Game_Over
-			Put("Sorry but you were not able to finish the game in the allotted settings...");
-			New_Line;
-		-- *********
-		--	Display positions of correct mirror locations	
-		-- *********
-			New_Line;
-			Put("Press any key to return to the main menu");
-		-- *********
-		-- Bring player back to main menu after a keypress
-		-- *********
-		If button_press = true then
-			Menu();
-		else
-			null;
-		end if;
-	end game_over;
 	
-	procedure Help() is		-- need enumerations, help w/ if game is running, just aligned
+	procedure Help is	
 		choice: help_option;
 		pick: Boolean:= False;
+		key: Boolean:= False;
+		origin_spot: Gameboard.carrotposition;
+		keypress: Character;
 		begin -- Help
 			while pick /= true loop
-				Display help_options (enumeration)
-				Ask for choice 
-				If choice = About Game
-					About_Game();
+				Put("1 About the Game");
+				New_Line;
+				Put("2 Controls");
+				New_Line;
+				Put("3 The difficulties");
+				New_Line;
+				Put("4 Go Back");
+				Get(keypress);
+				while key = false loop
+					If keypress = 1 then
+						choice:= About_Game;
+						key:= true;
+					elsif keypress = 2 then
+						choice:= Controls;
+						key:= true;
+					elsif keypress = 3 then
+						choice:= Difficulties;
+						key:= true;
+					elsif keypress = 4 then
+						choice:= Quit;
+						key:= true;
+					else
+						Null; -- not a valid key pressed
+					end if;
+				If choice = About_Game then
+					About_Game;
 					Go back to help menu
 				Elsif choice is Controls
-					Controls()
+					Controls
 					Go back to help menu
 				Elsif choice is Difficulties
-					Difficulties()
+					Difficulties
 					Go back to help menu
-				Else – goto main menu or back to game
-					If the game has been started then
-						Execute();
-						-- need from someone
-						pick: = True;
+				Else -- goto main menu or back to game
+					origin_spot.side:= right;
+					origin_spot.index:= 1;
+					If GameBoard.CarrotPosition /= origin or GameBoard.guesses.length /= 0 or
+								Gameboard.shots /= 25 or Gameboard.shots /= 30 or 
+								Gameboard.shots /= 45 or gameboard.shots /= 90 then
+							-- the game has started
+						pick:= True;
 					Else
 						Menu();
-						pick: = True;
+						pick:= True;
 					end if;
 			End loop;
 	end help;
 
-	procedure About_Game() is         -- need keypress
+	procedure About_Game is       
+		button_press: Unbounded_string;
 		begin -- About_Game
 		Put("The object of the game is to recreate the arrangement of mirrors in the box.");
 		New_Line;
@@ -631,18 +655,13 @@ With Types;
 		New_Line;
 		Put("game for our project in CS 1350.");
 		New_Line(2);
-		Put("Press any key to return to the main menu");
-		-- *********
-		-- Bring player back to main menu after a keypress
-		-- *********
-		If button_press = true then
-			Menu();
-		else
-			null;
-		end if;
+		Put("Enter any key to return to the main menu");
+		Get(button_press);
+		Help;
 	end about_game;
 
-	procedure Difficulties() is      -- need keypress
+	procedure Difficulties is     
+		button_press: unbounded_string;
 		begin -- Difficulties
 		Put("There are 4 different difficulties in this game: Easy, Intermediate, Hard, and Insane.");
 		New_Line;
@@ -652,18 +671,13 @@ With Types;
 		New_Line;
 		Put("5x5 for easy, 6x6 for both intermediate and hard, and 10x10 for insane.");		
 		New_Line(2);
-		Put("Press any key to return to the main menu");
-		-- *********
-		-- Bring player back to main menu after a keypress
-		-- *********
-		If button_press = true then
-			Menu();
-		else
-			null;
-		end if;
+		Put("Enter any key to return to the main menu");
+		Get(button_press);
+		Help;
 	end difficulties;
 	
-	procedure Controls() is       -- need keypress
+	procedure Controls is      
+		button_press: Unbounded_String;
 		begin -- Controls
 		Put("These are the only buttons which will not be ignored");
 		New_Line(2);
@@ -677,17 +691,15 @@ With Types;
 		New_Line;
 		Put("g : make a guess");
 		New_Line;
+		Put("After g is entered, two inputs are needed: the first is the position in the box");
+		New_Line;
+		Put("wanted to guess at(A..J,1..10); the second is the type of mirror(True=45 or False=135).");
+		New_Line;
 		Put("h : help");
 		New_Line(2);
-		Put("Press any key to return to the main menu");
-		-- *********
-		-- Bring player back to main menu after a keypress
-		-- *********
-		If button_press = true then
-			Menu();
-		else
-			null;
-		end if;
+		Put("Enter any key to return to the main menu");
+		Get(button_press);
+		Help;
 	end controls;
 
 
